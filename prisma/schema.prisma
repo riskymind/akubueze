@@ -1,0 +1,164 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client"
+  output   = "../lib/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+
+enum Role {
+  MEMBER
+  ADMIN
+  FINANCIAL_SECRETARY
+}
+
+enum PaymentStatus {
+  PENDING
+  PAID
+  OVERDUE
+}
+
+
+model User {
+  id            String @id @default(cuid())
+  email         String @unique
+  name          String
+  phone         String?
+  password      String
+  image         String?
+  role          Role  @default(MEMBER)
+  resetToken    String?
+  resetTokenExpiry DateTime?
+
+  createdAt         DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+
+  hostedMeetings     Meeting[] @relation("MeetingHost")
+  payments          Payment[]
+  notifications     Notification[]
+  account           Account[]
+  session           Session[]
+
+  @@index([email])
+  dues Due[]
+}
+
+model Account {
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+ 
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+ 
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+ 
+  @@id([provider, providerAccountId])
+}
+ 
+model Session {
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+ 
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+ 
+model VerificationToken {
+  identifier String
+  token      String
+  expires    DateTime
+ 
+  @@id([identifier, token])
+}
+
+
+model Meeting {
+  id            String @id @default(cuid())
+  title         String
+  date          DateTime
+  venue         String
+  description   String?
+  hostId        String
+  host          User @relation("MeetingHost", fields: [hostId], references: [id])
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  dues          Due[]
+  
+  @@index([date])
+  @@index([hostId])
+}
+
+
+model Due {
+  id                String @id @default(cuid())
+  meetingId         String
+  meeting           Meeting @relation(fields: [meetingId], references: [id], onDelete: Cascade)
+  memberId          String 
+  amount            Int
+  status            PaymentStatus @default(PENDING)
+  dueDate           DateTime
+  isHost            Boolean @default(false)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  member    User   @relation(fields: [memberId], references: [id])
+  payments           Payment[]
+
+  @@unique([meetingId, memberId])
+  @@index([meetingId])
+  @@index([memberId])
+  @@index([status])
+}
+
+
+model Payment {
+  id              String @id @default(cuid())
+  dueId           String
+  due             Due @relation(fields: [dueId], references: [id], onDelete: Cascade)
+  memberId        String
+  member          User @relation(fields: [memberId], references: [id])
+  amount          Int
+  paymentDate     DateTime @default(now())
+  paymentMethod   String? // e.g. "Cash", "Bank transfer", "Online"
+  reference       String? // Payment reference number
+  verifiedBy      String? // ID of admin/fin_sec who verified
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([dueId])
+  @@index([memberId]) 
+}
+
+
+model Notification {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title     String
+  message   String
+  read      Boolean  @default(false)
+  type      String   // e.g., "OVERDUE", "REMINDER", "MEETING"
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+  @@index([read])
+}
