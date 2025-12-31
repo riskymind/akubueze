@@ -52,14 +52,14 @@ const CredentialsSigninForm = () => {
                         autoComplete="password"
                         defaultValue={signInDefaultValues.password}/>
                 </div>
-                <div className="w-full text-right">
+                {/* <div className="w-full text-right">
                      <Link
                 href="/forgot-password"
                 className="text-sm font-medium text-green-600 hover:text-green-500"
               >
                 Forgot password?
               </Link>
-                </div>
+                </div> */}
                 <div>
                     <SignInButton />
                 </div>
