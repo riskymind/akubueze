@@ -1,5 +1,10 @@
 import { getMembersAction } from '@/lib/actions/member.action';
 import MembersClient from '@/components/members-client';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Members',
+};
 
 export default async function MembersPage() {
   const result = await getMembersAction();

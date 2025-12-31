@@ -6,6 +6,11 @@ import { auth } from '@/auth';
 import { getMeetingByIdAction } from '@/lib/actions/meeting.action';
 import { getMembersAction } from '@/lib/actions/member.action';
 import EditMeetingClient from './edit-meeting-client';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Update Meeting',
+};
 
 interface PageProps {
   params: Promise<{ id: string }>;

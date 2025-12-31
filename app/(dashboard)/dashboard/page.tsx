@@ -1,10 +1,15 @@
 import Link from 'next/link';
 import { auth } from '@/auth';
-import { Calendar, DollarSign, AlertCircle, CheckCircle } from 'lucide-react';
+import { Calendar, AlertCircle, CheckCircle } from 'lucide-react';
 import { formatCurrency, formatDate } from '@/lib/utils';
 import { getMeetingsAction } from '@/lib/actions/meeting.action';
 import { getDuesAction } from '@/lib/actions/dues.action';
 import NairaIcon from '@/components/naira-icon';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Dashboard',
+};
 
 export default async function DashboardPage() {
   const session = await auth();

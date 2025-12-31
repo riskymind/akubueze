@@ -5,6 +5,11 @@ import { formatDate, formatCurrency } from '@/lib/utils';
 import { getMeetingsAction } from '@/lib/actions/meeting.action';
 import DeleteMeetingButton from '@/components/delete-meeting-button';
 import Pagination from '@/components/pagination';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Meeting',
+};
 
 type Filter = 'all' | 'upcoming' | 'past';
 

@@ -1,9 +1,8 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use server"
 
 import { auth, signIn, signOut } from "@/auth"
 import { isRedirectError } from "next/dist/client/components/redirect-error"
-import { loginSchema, resetPasswordSchema, updateUserSchema, forgotPasswordSchema, updateProfileSchema } from "../validations"
+import { loginSchema, updateUserSchema, forgotPasswordSchema, updateProfileSchema } from "../validations"
 import { prisma } from "../prisma";
 import { formatError } from "../utils";
 import { revalidatePath } from "next/cache";
@@ -199,7 +198,7 @@ export async function requestPasswordResetAction(email: string) {
 
     // In production, send email with reset link
     // For now, we'll log it (you should integrate email service)
-    const resetUrl = `${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/reset-password?token=${resetToken}`;
+    const resetUrl = `${process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3000'}/reset-password?token=${resetToken}`;
     
     console.log('Password Reset Link:', resetUrl);
     console.log('Reset Token:', resetToken);
@@ -282,52 +281,52 @@ export async function resetPasswordWithTokenAction(token: string, newPassword: s
   }
 }
 
-export async function resetPasswordAction(formData: FormData) {
-  try {
-    const rawData = {
-      email: formData.get('email') as string,
-      newPassword: formData.get('newPassword') as string,
-      token: formData.get('token') as string,
-    };
+// export async function resetPasswordAction(formData: FormData) {
+//   try {
+//     const rawData = {
+//       email: formData.get('email') as string,
+//       newPassword: formData.get('newPassword') as string,
+//       token: formData.get('token') as string,
+//     };
 
-    const validatedData = resetPasswordSchema.parse(rawData);
+//     const validatedData = resetPasswordSchema.parse(rawData);
 
-    const user = await prisma.user.findUnique({
-      where: { email: validatedData.email },
-    });
+//     const user = await prisma.user.findUnique({
+//       where: { email: validatedData.email },
+//     });
 
-    if (!user) {
-      return { error: 'User not found' };
-    }
+//     if (!user) {
+//       return { error: 'User not found' };
+//     }
 
-    if (validatedData.token && user.resetToken !== validatedData.token) {
-      return { error: 'Invalid reset token' };
-    }
+//     if (validatedData.token && user.resetToken !== validatedData.token) {
+//       return { error: 'Invalid reset token' };
+//     }
 
-    if (user.resetTokenExpiry && new Date() > user.resetTokenExpiry) {
-      return { error: 'Reset token has expired' };
-    }
+//     if (user.resetTokenExpiry && new Date() > user.resetTokenExpiry) {
+//       return { error: 'Reset token has expired' };
+//     }
 
-    const hashedPassword = await bcrypt.hash(validatedData.newPassword, 10);
+//     const hashedPassword = await bcrypt.hash(validatedData.newPassword, 10);
 
-    await prisma.user.update({
-      where: { email: validatedData.email },
-      data: {
-        password: hashedPassword,
-        resetToken: null,
-        resetTokenExpiry: null,
-      },
-    });
+//     await prisma.user.update({
+//       where: { email: validatedData.email },
+//       data: {
+//         password: hashedPassword,
+//         resetToken: null,
+//         resetTokenExpiry: null,
+//       },
+//     });
 
-    return { success: true, message: 'Password reset successfully' };
-  } catch (error: any) {
-    if (error.errors) {
-      return { error: error.errors[0].message };
-    }
-    console.error('Password reset error:', error);
-    return { error: 'Failed to reset password' };
-  }
-}
+//     return { success: true, message: 'Password reset successfully' };
+//   } catch (error: any) {
+//     if (error.errors) {
+//       return { error: error.errors[0].message };
+//     }
+//     console.error('Password reset error:', error);
+//     return { error: 'Failed to reset password' };
+//   }
+// }
 
 export async function forgotPasswordAction(
   _prevState: ForgotPasswordState,

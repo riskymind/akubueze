@@ -3,6 +3,11 @@ import { redirect } from 'next/navigation';
 import { auth } from '@/auth';
 import { getMeetingByIdAction } from '@/lib/actions/meeting.action';
 import MeetingDetailClient from './meeting-detail-client';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Meeting',
+};
 
 
 interface PageProps {

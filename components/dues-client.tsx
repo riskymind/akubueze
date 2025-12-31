@@ -1,28 +1,29 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
 import { useState } from 'react';
 import { Calendar } from 'lucide-react';
 import { formatDate, formatCurrency } from '@/lib/utils';
-import { makePaymentAction } from '@/lib/actions/payment.action';
+// import { makePaymentAction } from '@/lib/actions/payment.action';
 
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+
 export default function DuesClient({ dues }: { dues: any[] }) {
   const [filter, setFilter] = useState<'all' | 'paid' | 'pending' | 'overdue'>('all');
-  const [paying, setPaying] = useState<string | null>(null);
+  // const [paying, setPaying] = useState<string | null>(null);
 
   const filteredDues = dues.filter(due => {
     if (filter === 'all') return true;
     return due.status.toLowerCase() === filter;
   });
 
-  const makePayment = async (dueId: string, amount: number) => {
-    if (!confirm(`Confirm payment of ${formatCurrency(amount)}?`)) return;
+  // const makePayment = async (dueId: string, amount: number) => {
+  //   if (!confirm(`Confirm payment of ${formatCurrency(amount)}?`)) return;
 
-    setPaying(dueId);
-    await makePaymentAction(dueId, amount, 'Online');
-    location.reload(); // simplest + safe after payment
-  };
+  //   setPaying(dueId);
+  //   await makePaymentAction(dueId, amount, 'Online');
+  //   location.reload(); // simplest + safe after payment
+  // };
 
   return (
     <>
@@ -62,7 +63,7 @@ export default function DuesClient({ dues }: { dues: any[] }) {
             {due.status !== 'PAID' && (
               <button
                 // onClick={() => makePayment(due.id, due.amount)}
-                disabled={paying === due.id}
+                // disabled={paying === due.id}
                 className="mt-3 bg-red-600 text-white px-4 py-2 rounded-lg"
               >
                 {/* {paying === due.id ? 'Processing...' : 'Pay Now'} */}

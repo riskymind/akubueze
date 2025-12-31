@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
 import { useState } from 'react';
@@ -5,7 +6,7 @@ import { Users, Mail, Phone, Calendar } from 'lucide-react';
 import { formatDate } from '@/lib/utils';
 import Image from 'next/image';
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+
 export default function MembersClient({ members }: { members: any[] }) {
   const [searchTerm, setSearchTerm] = useState('');
 

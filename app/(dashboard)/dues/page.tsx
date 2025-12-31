@@ -1,10 +1,15 @@
 import { auth } from '@/auth';
 import { redirect } from 'next/navigation';
-import { DollarSign, Calendar, AlertCircle, CheckCircle, Clock } from 'lucide-react';
-import { formatDate, formatCurrency } from '@/lib/utils';
+import { AlertCircle, CheckCircle, Clock } from 'lucide-react';
+import { formatCurrency } from '@/lib/utils';
 import { getDuesAction } from '@/lib/actions/dues.action';
 import DuesClient from '@/components/dues-client';
 import NairaIcon from '@/components/naira-icon';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Dues',
+};
 
 export default async function DuesPage() {
   const session = await auth();

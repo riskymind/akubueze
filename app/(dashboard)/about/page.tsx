@@ -2,6 +2,11 @@
 
 import { useState } from 'react';
 import { constitution } from '@/lib/constitution';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'About Us',
+};
 
 export default function ConstitutionPage() {
 const [showContentMobile, setShowContentMobile] = useState(false);

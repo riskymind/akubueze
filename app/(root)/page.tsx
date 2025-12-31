@@ -4,6 +4,11 @@ import { Button } from "@/components/ui/button";
 import { UserIcon } from "lucide-react";
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: 'Home Page',
+};
 
 const HomePage = async () => {
     const session =  await auth()

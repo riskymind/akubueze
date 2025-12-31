@@ -3,9 +3,13 @@ import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
 import { auth } from '@/auth';
 import { getNextMeetingDate } from '@/lib/utils';
-// import CreateMeetingForm from './create-meeting-form';
 import { getMembersAction } from '@/lib/actions/member.action';
 import CreateMeetingForm from './create-meeting-form';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Create Meeting',
+};
 
 export default async function CreateMeetingPage() {
   const session = await auth();

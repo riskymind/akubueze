@@ -4,7 +4,7 @@ import { SessionProvider } from 'next-auth/react';
 import ProfileForm from './profile-form';
 
 export const metadata: Metadata = {
-  title: 'Customer Profile',
+  title: 'Member Profile',
 };
 
 const Profile = async () => {
