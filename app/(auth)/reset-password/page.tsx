@@ -6,7 +6,6 @@ import Link from 'next/link';
 import { Lock, Eye, EyeOff, Loader2, CheckCircle } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
 import { resetPasswordWithTokenAction } from '@/lib/actions/user.actions';
 import { ResetPasswordInput } from '@/types';
 import { resetPasswordSchema } from '@/lib/validations';
