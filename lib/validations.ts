@@ -1,4 +1,5 @@
 import {z} from "zod"
+import { Role } from "./generated/prisma/enums"
 
 // Auth schema
 export const loginSchema = z.object({
@@ -17,11 +18,11 @@ export const registerSchema = z.object({
     image: z.string().optional()
 })
 
-export const resetPasswordSchema = z.object({
-    email: z.email("Invalid email address"),
-    newPassword: z.string().min(6, "Password must be at least 6 characters"),
-    token: z.string().optional()
-})
+// export const resetPasswordSchema = z.object({
+//     email: z.email("Invalid email address"),
+//     newPassword: z.string().min(6, "Password must be at least 6 characters"),
+//     token: z.string().optional()
+// })
 
 export const changePasswordSchema = z.object({
     currentPassword: z.string().min(1, "Current password is required"),
@@ -31,6 +32,32 @@ export const changePasswordSchema = z.object({
     message: "Passwords do not match",
     path: ["confirmPassword"]
 })
+
+export const resetPasswordSchema = z.object({
+  password: z.string().min(6, 'Password must be at least 6 characters'),
+  confirmPassword: z.string().min(1, 'Please confirm your password'),
+}).refine((data) => data.password === data.confirmPassword, {
+  message: "Passwords don't match",
+  path: ["confirmPassword"],
+});
+
+export const forgotPasswordSchema = z.object({
+  email: z.string().email('Invalid email address'),
+});
+
+
+// Schema for updating the user profile
+export const updateProfileSchema = z.object({
+  name: z.string().min(3, 'Name must be at leaast 3 characters'),
+  email: z.string().min(3, 'Email must be at leaast 3 characters'),
+  image: z.string().optional(),
+});
+
+// Schema to update users
+export const updateUserSchema = updateProfileSchema.extend({
+  id: z.string().min(1, 'ID is required'),
+  role: z.enum(Role)
+});
 
 // Meeting Schemas
 export const createMeetingSchema = z.object({

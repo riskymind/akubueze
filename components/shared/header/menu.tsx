@@ -1,9 +1,7 @@
 import { MenuIcon } from 'lucide-react'
-// import { ThemeSwitch } from './theme-switch'
 import { Sheet, SheetContent, SheetDescription, SheetTitle, SheetTrigger } from '@/components/ui/sheet'
 import { ThemeSwitch } from './theme-switch'
 import UserButton from './user-button'
-
 
 
 const Menu = () => {

@@ -10,6 +10,8 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { UserIcon } from 'lucide-react';
+import { Role } from '@/lib/generated/prisma/enums';
+import Image from 'next/image';
 
 const UserButton = async () => {
   const session = await auth();
@@ -25,18 +27,26 @@ const UserButton = async () => {
   }
 
   const firstInitial = session.user?.name?.charAt(0).toUpperCase() ?? 'U';
+  const profileImage = session.user?.image ?? "/images/logo.jpeg"
 
   return (
     <div className='flex gap-2 items-center'>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <div className='flex items-center'>
-            <Button
+            {/* <Button
               variant='ghost'
               className='relativee w-8 h-8 rounded-full ml-2 flex items-center justify-center bg-gray-200'
-            >
-              {firstInitial}
-            </Button>
+            > */}
+               {/* <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center"> */}
+                <Image
+                  src={profileImage}
+                  height={32}
+                  width={32}
+                  className='rounded-full'
+                  alt={firstInitial}/>
+              {/* </div> */}
+            {/* </Button> */}
           </div>
         </DropdownMenuTrigger>
         <DropdownMenuContent className='w-56' align='end' forceMount>
@@ -56,6 +66,14 @@ const UserButton = async () => {
               User Profile
             </Link>
           </DropdownMenuItem>
+
+          {session?.user?.role === Role.ADMIN && (
+            <DropdownMenuItem>
+              <Link href='/admin/users' className='w-full'>
+                Admin
+              </Link>
+            </DropdownMenuItem>
+          )}
 
           {/* <DropdownMenuItem className='p-0 mb-1'> */}
             <form action={signOutUser} className='w-full'>

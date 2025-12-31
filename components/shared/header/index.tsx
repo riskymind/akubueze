@@ -12,17 +12,18 @@ const Header = () => {
             <div className="flex justify-start items-center">
                 <Link href="/" className="flex justify-start items-center gap-2"> 
                     <Image 
-                    src="/images/logo.png" 
+                    src="/images/logo.jpeg" 
                     alt={`${APP_NAME} logo`} 
                     height={48} 
                     width={48} 
-                    priority={true}/>
-                    <span className="hidden lg:block font-bold text-2xl">
+                    priority={true}
+                    className="rounded-r-lg rounded-l-lg border border-gray-200 shadow-sm"/>
+                    <span className="hidden lg:block font-semibold text-sm italic">
                         {APP_NAME}
                     </span>
                 </Link>
             </div>
-            <MainNav className='mx-6'/>
+            <MainNav className='mx-6 md:flex flex-wrap'/>
             <Menu />
         </div>
     </header>

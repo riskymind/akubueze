@@ -1,4 +1,4 @@
-import { changePasswordSchema, createMeetingSchema, loginSchema, makePaymentSchema, registerSchema, resetPasswordSchema, updateDueStatusSchema, updateMeetingSchema, updateMemberSchema } from "@/lib/validations";
+import { changePasswordSchema, createMeetingSchema, forgotPasswordSchema, loginSchema, makePaymentSchema, registerSchema, resetPasswordSchema, updateDueStatusSchema, updateMeetingSchema, updateMemberSchema } from "@/lib/validations";
 import z from "zod";
 
 // Type exports
@@ -11,3 +11,4 @@ export type UpdateMeetingInput = z.infer<typeof updateMeetingSchema>;
 export type MakePaymentInput = z.infer<typeof makePaymentSchema>;
 export type UpdateDueStatusInput = z.infer<typeof updateDueStatusSchema>;
 export type UpdateMemberInput = z.infer<typeof updateMemberSchema>;
+export type ForgotPasswordInput = z.infer<typeof forgotPasswordSchema>;

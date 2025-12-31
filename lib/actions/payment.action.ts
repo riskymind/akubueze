@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use server"
 
 import { auth } from '@/auth';
@@ -67,7 +68,7 @@ export async function makePaymentAction(
     revalidatePath('/meetings');
     
     return { success: true, payment };
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  
   } catch (error: any) {
     if (error.errors) {
       return { error: error.errors[0].message };
@@ -156,7 +157,7 @@ export async function verifyPaymentAction(paymentId: string) {
     revalidatePath('/dashboard');
     
     return { success: true, payment: updatedPayment };
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
   } catch (error: any) {
     if (error.errors) {
       return { error: error.errors[0].message };

@@ -1,7 +1,6 @@
 import Footer from '@/components/footer'
 import Header from '@/components/shared/header'
 import React from 'react'
-import MainNav from './main-nav'
 
 export default function DashboardLayout({children}: Readonly<{
     children: React.ReactNode}>) {

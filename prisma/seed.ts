@@ -1,32 +1,47 @@
 import {prisma} from "@/lib/prisma"
 import bcrypt from "bcryptjs"
-import { emit } from "process"
-import { use } from "react"
 
 async function main() {
     // Create Admin user
-    const adminPassword = await bcrypt.hash("admin123", 10)
-    const admin = await prisma.user.upsert({
-        where: { email: "admin@akubueze.com" },
-        create: {
-            email: "admin@akubueze.com",
-            name: "System Adminstrator",
-            phone: "+2348034049873",
-            password: adminPassword,
-            image: "",
-            role: 'ADMIN'
-        },
-        update: {}
-    })
+    const adminPassword = await bcrypt.hash("aku@admin123", 10)
+    const admins = [
+        {name: "Ukaegbu Charles", email: "charles@akubueze.com", phone: "+447564684472", image: ""},
+        {name: "Awulonu Chika", email: "chi@akubueze.com", phone: "+2349167213865", image: ""},
+        {name: "Opara Kelechi", email: "kelechi@akubueze.com", phone: "+2347046193975", image: ""},
+    ]
+     for (const admin of admins) {
+        await prisma.user.upsert({
+            where: {email: admin.email},
+            create: {
+                ...admin,
+                password: adminPassword,
+                role: "ADMIN"
+            },
+            update: {}
+        })
+    }
+    // await prisma.user.upsert({
+    //     where: { email: "kelechi@akubueze.com" },
+    //     create: {
+    //         email: "kelechi@akubueze.com",
+    //         name: "Opara Kelechi",
+    //         phone: "+2347046193975",
+            
+    //         image: "",
+    //         role: 'ADMIN'
+    //     },
+    //     update: {}
+    // })
+
 
     // Create Fin Sec
-    const finSecPassword = await bcrypt.hash("finSec123", 10)
-    const finSec = await prisma.user.upsert({
-        where: {email: "finSec@akubueze.com"},
+    const finSecPassword = await bcrypt.hash("aku@finsec123", 10)
+    await prisma.user.upsert({
+        where: {email: "noel@akubueze.com"},
         update: {},
         create: {
-            email: "finSec@akubueze.com",
-            name: "Financial Secretary",
+            email: "noel@akubueze.com",
+            name: "Chukwu Noel",
             phone: "+2348035818750",
             password: finSecPassword,
             image: "",
@@ -35,12 +50,22 @@ async function main() {
     })
 
     // Create Sample members
-    const memberPassword = await bcrypt.hash("member123", 10)
+    const memberPassword = await bcrypt.hash("aku@member123", 10)
     const members = [
-        {name: "Chukwu Chukwudi", email: "chukwudi@gmail.com", phone: "+123456", image: ""},
-        {name: "Mbata Cajetan", email: "cajetan@gmail.com", phone: "+34294", image: ""},
-        {name: "Nwachukwu Chika", email: "chika@gmail.com", phone: "+987473", image: ""},
-        {name: "Okere Tochi", email: "tochi@gmail.com", phone: "+31245", image: ""}
+        {name: "Chukwu Chukwudi", email: "chukwudi@akubueze.com", phone: "+2347037979386", image: ""},
+        {name: "Mbata Cajetan", email: "cajetan@akubueze.com", phone: "+2347062473766", image: ""},
+        {name: "Nwachukwu Chika", email: "chika@akubueze.com", phone: "+2349135025079", image: ""},
+        {name: "Okere Tochi", email: "tochi@akubueze.com", phone: "+2347035652296", image: ""},
+        {name: "Nnadi Chibueze", email: "chibueze@akubueze.com", phone: "+2347045393423", image: ""},
+        {name: "Duru Chioma", email: "chioma@akubueze.com", phone: "+2348147846204", image: ""},
+        {name: "Ndukwu Tochi", email: "ndukwu@akubueze.com", phone: "+2349130775583", image: ""},
+        {name: "Iheanacho Samson", email: "samson@akubueze.com", phone: "+2348138571912", image: ""},
+        {name: "Maduagwu Chidinma", email: "chidinma@akubueze.com", phone: "+447827215265", image: ""},
+        {name: "Opara Oluchi", email: "oluchi@akubueze.com", phone: "+2348145555787", image: ""},
+        {name: "Opara Ugochukwu", email: "ugochukwu@akubueze.com", phone: "+2348108323501", image: ""},
+        {name: "Nkwocha Princewill", email: "princewill@akubueze.com", phone: "+2347034536357", image: ""},
+        {name: "Anukam Ugochukwu", email: "anukam@akubueze.com", phone: "+2347032178821", image: ""},
+        {name: "Umunakwe Richard", email: "richard@akubueze.com", phone: "+2349167213865", image: ""},
     ]
 
     for (const member of members) {
@@ -56,30 +81,30 @@ async function main() {
     }
 
     // Create a sample meeting
-    const lastSunday = new Date()
-    lastSunday.setDate(lastSunday.getDate() - lastSunday.getDay())
+    // const lastSunday = new Date()
+    // lastSunday.setDate(lastSunday.getDate() - lastSunday.getDay())
 
-    const allUsers = await prisma.user.findMany()
-    const hostUser = allUsers[2]; // use the third as host
+    // const allUsers = await prisma.user.findMany()
+    // const hostUser = allUsers[2]; // use the third as host
 
-    const meeting = await prisma.meeting.create({
-        data: {
-            title: "November meeting",
-            date: lastSunday,
-            venue: "Mbata's Compound",
-            description: "Last meeting of the year 2025",
-            hostId: hostUser.id,
-            dues: {
-                create: allUsers.map(user => ({
-                    memberId: user.id,
-                    amount: user.id === hostUser.id ? 5000 : 1000,
-                    isHost: user.id === hostUser.id,
-                    status: 'PENDING',
-                    dueDate: lastSunday
-                }))
-            }
-        }
-    })
+    // const meeting = await prisma.meeting.create({
+    //     data: {
+    //         title: "November meeting",
+    //         date: lastSunday,
+    //         venue: "Mbata's Compound",
+    //         description: "Last meeting of the year 2025",
+    //         hostId: hostUser.id,
+    //         dues: {
+    //             create: allUsers.map(user => ({
+    //                 memberId: user.id,
+    //                 amount: user.id === hostUser.id ? 5000 : 1000,
+    //                 isHost: user.id === hostUser.id,
+    //                 status: 'PENDING',
+    //                 dueDate: lastSunday
+    //             }))
+    //         }
+    //     }
+    // })
 
 
     console.log('Database seeded successfully!');

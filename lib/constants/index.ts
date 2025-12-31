@@ -3,8 +3,8 @@ export const APP_DESCRIPTION = process.env.NEXT_PUBLIC_APP_DESCRIPTION || "The 9
 export const SERVER_URL = process.env.NEXT_PUBLIC_SERVER_URL || "http://localhost:3000"
 
 export const signInDefaultValues = {
-    email: 'admin@akubueze.com',
-    password: 'admin123',
+    email: '',
+    password: '',
   };
   
   export const signUpDefaultValues = {
@@ -14,3 +14,9 @@ export const signInDefaultValues = {
     confirmPassword: '',
     role: ''
   };
+
+  export const PAGE_SIZE = Number(process.env.PAGE_SIZE) || 12;
+
+  export const USER_ROLES = process.env.USER_ROLES
+  ? process.env.USER_ROLES.split(', ')
+  : ['ADMIN', 'MEMBER', 'FINANCIAL_SECRETARY'];

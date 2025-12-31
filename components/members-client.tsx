@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { Users, Mail, Phone, Calendar } from 'lucide-react';
 import { formatDate } from '@/lib/utils';
+import Image from 'next/image';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export default function MembersClient({ members }: { members: any[] }) {
@@ -52,13 +53,17 @@ export default function MembersClient({ members }: { members: any[] }) {
         ) : (
           <div className="divide-y divide-gray-100">
             {filteredMembers.map((member) => (
-              <div key={member.id} className="p-6 hover:bg-gray-50 transition">
-                <div className="flex items-start justify-between">
+              <div key={member.id} className="p-6 hover:bg-gray-50 transition bg-gray-100 my-4">
+                <div className="flex flex-col justify-center items-center  md:flex-row md:items-start md:justify-between">
+                 
                   <div className="flex items-start gap-4">
                     <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
-                      <span className="text-green-700 font-bold text-lg">
-                        {member.name.charAt(0).toUpperCase()}
-                      </span>
+                      <Image 
+                        src={member.image || "/images/logo.jpeg"}
+                        height={48}
+                        width={48}
+                        className='rounded-full'
+                        alt={member.name}/>
                     </div>
 
                     <div>
@@ -87,7 +92,7 @@ export default function MembersClient({ members }: { members: any[] }) {
                     </div>
                   </div>
 
-                  <div className="text-right">
+                  <div className="mt-4 md:mt-0">
                     <span
                       className={`inline-block px-3 py-1 rounded-full text-xs font-medium ${
                         member.role === 'ADMIN'
@@ -111,6 +116,7 @@ export default function MembersClient({ members }: { members: any[] }) {
                       </p>
                     </div>
                   </div>
+
                 </div>
               </div>
             ))}

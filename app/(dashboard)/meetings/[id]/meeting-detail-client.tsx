@@ -3,16 +3,12 @@
 
 import { useState } from 'react';
 import {
-  Calendar,
-  MapPin,
   User,
   ArrowLeft,
   Edit,
   CheckCircle,
   Clock,
   AlertCircle,
-  DollarSign,
-  ChevronDown,
 } from 'lucide-react';
 import Link from 'next/link';
 import { formatDate, formatCurrency } from '@/lib/utils';
@@ -45,13 +41,13 @@ export default function MeetingDetailClient({ meeting, isAdmin }: any) {
     setUpdatingDue(dueId);
     setOpenDropdown(null);
 
-    const result = await updateDueStatusAction(dueId, newStatus);
+     await updateDueStatusAction(dueId, newStatus);
 
-    if (result.success) {
-      meeting.dues = meeting.dues.map((d: any) =>
-        d.id === dueId ? { ...d, status: newStatus } : d
-      );
-    }
+    // if (result.success) {
+      // meeting.dues = meeting.dues.map((d: any) =>
+      //   d.id === dueId ? { ...d, status: newStatus } : d
+      // );
+    // }
 
     setUpdatingDue(null);
   }

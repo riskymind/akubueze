@@ -4,6 +4,7 @@ import { Calendar, DollarSign, AlertCircle, CheckCircle } from 'lucide-react';
 import { formatCurrency, formatDate } from '@/lib/utils';
 import { getMeetingsAction } from '@/lib/actions/meeting.action';
 import { getDuesAction } from '@/lib/actions/dues.action';
+import NairaIcon from '@/components/naira-icon';
 
 export default async function DashboardPage() {
   const session = await auth();
@@ -20,7 +21,7 @@ export default async function DashboardPage() {
   }
 
   const [meetingsResult, duesResult] = await Promise.all([
-    getMeetingsAction(),
+    getMeetingsAction({page: 1}),
     getDuesAction({ memberId: session.user.id }),
   ]);
 
@@ -87,7 +88,7 @@ export default async function DashboardPage() {
       title: 'Total Contribution',
       value: formatCurrency(stats.paidAmount),
       subtitle: `of ${formatCurrency(stats.totalAmount)}`,
-      icon: DollarSign,
+      icon: NairaIcon,
       color: 'bg-purple-500',
     },
   ];
@@ -95,10 +96,10 @@ export default async function DashboardPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-bold text-gray-900">
+        <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-200">
           Welcome back, {session.user.name}!
         </h1>
-        <p className="text-gray-600 mt-1">
+        <p className="text-gray-600 mt-1 dark:text-gray-200">
           Here&apos;s your Akubueze Age Grade overview
         </p>
       </div>

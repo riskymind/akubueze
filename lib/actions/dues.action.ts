@@ -1,9 +1,11 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use server"
 
 import { auth } from '@/auth';
 import { prisma } from '@/lib/prisma';
 import { revalidatePath } from 'next/cache';
 import { updateDueStatusSchema } from '../validations';
+import { Role } from '../generated/prisma/enums';
 
 export async function getDuesAction(filters?: {
   memberId?: string;
@@ -17,12 +19,12 @@ export async function getDuesAction(filters?: {
       return { error: 'Unauthorized' };
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
     const where: any = {};
 
     if (filters?.memberId) {
       where.memberId = filters.memberId;
-    } else if (session.user.role === 'MEMBER') {
+    } else if (session.user.role === Role.MEMBER) {
       where.memberId = session.user.id;
     }
 
@@ -71,7 +73,7 @@ export async function updateDueStatusAction(dueId: string, status: string) {
   try {
     const session = await auth();
 
-    if (!session || (session.user.role !== 'ADMIN' && session.user.role !== 'FINANCIAL_SECRETARY')) {
+    if (!session || (session.user.role !== Role.ADMIN && session.user.role !== Role.FINANCIAL_SECRETARY)) {
       return { error: 'Unauthorized' };
     }
 
@@ -94,7 +96,7 @@ export async function updateDueStatusAction(dueId: string, status: string) {
     revalidatePath('/dues');
     revalidatePath('/dashboard');
     return { success: true, due: updatedDue };
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
   } catch (error: any) {
     if (error.errors) {
       return { error: error.errors[0].message };
@@ -108,7 +110,7 @@ export async function processOverdueDuesAction() {
   try {
     const session = await auth();
 
-    if (!session || (session.user.role !== 'ADMIN' && session.user.role !== 'FINANCIAL_SECRETARY')) {
+    if (!session || (session.user.role !== Role.ADMIN && session.user.role !== Role.FINANCIAL_SECRETARY)) {
       return { error: 'Unauthorized' };
     }
 

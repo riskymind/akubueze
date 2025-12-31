@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use server"
 import { auth } from '@/auth';
 import { prisma } from '@/lib/prisma';
@@ -20,6 +21,7 @@ export async function getMembersAction() {
         email: true,
         phone: true,
         role: true,
+        image: true,
         createdAt: true,
         _count: {
           select: {
@@ -60,6 +62,7 @@ export async function getMemberByIdAction(memberId: string) {
         email: true,
         phone: true,
         role: true,
+        image: true,
         createdAt: true,
         payments: {
           include: {
@@ -132,6 +135,7 @@ export async function updateMemberAction(memberId: string, formData: FormData) {
         email: true,
         phone: true,
         role: true,
+        image: true
       },
     });
 
@@ -217,7 +221,7 @@ export async function changePasswordAction(formData: FormData) {
     });
 
     return { success: true, message: 'Password changed successfully' };
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  
   } catch (error: any) {
     if (error.errors) {
       return { error: error.errors[0].message };

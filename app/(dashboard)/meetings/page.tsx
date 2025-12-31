@@ -1,15 +1,17 @@
 import Link from 'next/link';
 import { auth } from '@/auth';
-import { Calendar, MapPin, User, Plus } from 'lucide-react';
+import { Calendar, MapPin, User, Plus, PencilIcon } from 'lucide-react';
 import { formatDate, formatCurrency } from '@/lib/utils';
 import { getMeetingsAction } from '@/lib/actions/meeting.action';
 import DeleteMeetingButton from '@/components/delete-meeting-button';
+import Pagination from '@/components/pagination';
 
 type Filter = 'all' | 'upcoming' | 'past';
 
 interface PageProps {
   searchParams: Promise<{
     filter?: Filter;
+    page: string
   }>;
 }
 
@@ -31,9 +33,9 @@ export default async function MeetingsPage({ searchParams }: PageProps) {
     session.user.role === 'ADMIN' ||
     session.user.role === 'FINANCIAL_SECRETARY';
 
-   const { filter = 'all' } = await searchParams;
+   const { filter = 'all', page = "1" } = await searchParams;
 
-  const result = await getMeetingsAction();
+  const result = await getMeetingsAction({page: Number(page)});
 
   if (!result.success) {
     return (
@@ -55,18 +57,18 @@ export default async function MeetingsPage({ searchParams }: PageProps) {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold text-gray-900">Meetings</h1>
-          <p className="text-gray-600 mt-1">
-            View and manage age grade meetings
+      <div className="flex items-center justify-between flex-wrap">
+        <div className='flex items-center gap-4'>
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-200 md:text-start">Meetings:</h1>
+          <p className="text-gray-600 dark:text-gray-200 text-sm mt-2">
+            View and manage meetings
           </p>
         </div>
 
         {isAdmin && (
           <Link
             href="/meetings/create"
-            className="flex items-center gap-2 bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700"
+            className="flex items-center gap-2 bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 mx-auto md:mx-0 mt-8 md:mt-0"
           >
             <Plus size={20} />
             Create Meeting
@@ -75,12 +77,12 @@ export default async function MeetingsPage({ searchParams }: PageProps) {
       </div>
 
       {/* Filters */}
-      <div className="flex gap-2 border-b border-gray-200">
+      <div className="flex gap-2 border-b border-gray-200 justify-center">
         {(['all', 'upcoming', 'past'] as Filter[]).map((tab) => (
           <Link
             key={tab}
             href={`/meetings?filter=${tab}`}
-            className={`px-4 py-2 font-medium border-b-2 ${
+            className={`px-4 py-2 font-medium border-b-2 flex-1 text-center ${
               filter === tab
                 ? 'border-green-600 text-green-600'
                 : 'border-transparent text-gray-600 hover:text-gray-900'
@@ -108,9 +110,20 @@ export default async function MeetingsPage({ searchParams }: PageProps) {
             return (
               <div
                 key={meeting.id}
-                className="bg-white rounded-xl shadow-sm border hover:shadow-md"
+                className="bg-white dark:bg-black rounded-xl shadow-sm border hover:shadow-md"
               >
                 <div className="p-6">
+                     {isAdmin && (
+                      <div className="flex gap-2 justify-end">
+                        <Link
+                          href={`/meetings/${meeting.id}/edit`}
+                          className="p-2 text-blue-600 hover:bg-blue-50 rounded"
+                        >
+                          <PencilIcon />
+                        </Link>
+                        <DeleteMeetingButton meetingId={meeting.id} />
+                      </div>
+                    )}
                   <div className="flex justify-between mb-4">
                     <div>
                       <h3 className="text-xl font-bold">{meeting.title}</h3>
@@ -119,18 +132,6 @@ export default async function MeetingsPage({ searchParams }: PageProps) {
                         {formatDate(meeting.date)}
                       </div>
                     </div>
-
-                    {isAdmin && (
-                      <div className="flex gap-2">
-                        <Link
-                          href={`/meetings/${meeting.id}/edit`}
-                          className="p-2 text-blue-600 hover:bg-blue-50 rounded"
-                        >
-                          Edit
-                        </Link>
-                        <DeleteMeetingButton meetingId={meeting.id} />
-                      </div>
-                    )}
                   </div>
 
                   {meeting.venue && (
@@ -157,7 +158,7 @@ export default async function MeetingsPage({ searchParams }: PageProps) {
 
                 <Link
                   href={`/meetings/${meeting.id}`}
-                  className="block bg-gray-50 text-center py-3 text-sm hover:bg-gray-100"
+                  className="block bg-gray-50  dark:bg-gray-800 text-center py-3 text-sm hover:bg-gray-100"
                 >
                   View Details →
                 </Link>
@@ -166,6 +167,9 @@ export default async function MeetingsPage({ searchParams }: PageProps) {
           })}
         </div>
       )}
+      {result.totalPages > 1 && (
+          <Pagination page={Number(page) || 1} totalPages={result?.totalPages} />
+        )}
     </div>
   );
 }

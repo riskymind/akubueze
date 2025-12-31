@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Calendar, AlertCircle, CheckCircle, Clock } from 'lucide-react';
+import { Calendar } from 'lucide-react';
 import { formatDate, formatCurrency } from '@/lib/utils';
 import { makePaymentAction } from '@/lib/actions/payment.action';
 
@@ -27,13 +27,13 @@ export default function DuesClient({ dues }: { dues: any[] }) {
   return (
     <>
       {/* Tabs */}
-      <div className="flex gap-2 border-b border-gray-200">
+      <div className="flex gap-2 border-b border-gray-200 justify-between">
         {['all', 'paid', 'pending', 'overdue'].map(tab => (
           <button
             key={tab}
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             onClick={() => setFilter(tab as any)}
-            className={`px-4 py-2 font-medium border-b-2 ${
+            className={`px-4 py-2 font-medium border-b-2 flex-1 text-center${
               filter === tab
                 ? 'border-green-600 text-green-600'
                 : 'border-transparent text-gray-600'
@@ -61,11 +61,12 @@ export default function DuesClient({ dues }: { dues: any[] }) {
 
             {due.status !== 'PAID' && (
               <button
-                onClick={() => makePayment(due.id, due.amount)}
+                // onClick={() => makePayment(due.id, due.amount)}
                 disabled={paying === due.id}
-                className="mt-3 bg-green-600 text-white px-4 py-2 rounded-lg"
+                className="mt-3 bg-red-600 text-white px-4 py-2 rounded-lg"
               >
-                {paying === due.id ? 'Processing...' : 'Pay Now'}
+                {/* {paying === due.id ? 'Processing...' : 'Pay Now'} */}
+                Not paid
               </button>
             )}
           </div>

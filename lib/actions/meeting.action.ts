@@ -1,13 +1,17 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use server"
 import { auth } from "@/auth";
 import {prisma} from "@/lib/prisma"
-import { error } from "console";
-import z, { success } from "zod";
 import { createMeetingSchema, updateMeetingSchema } from "../validations";
 import { revalidatePath } from "next/cache";
+import { PAGE_SIZE } from "../constants";
+
 
 // Get Latest Meetings
-export async function getMeetingsAction() {
+export async function getMeetingsAction({
+    page,
+    limit = PAGE_SIZE,
+}: {limit?: number, page: number}) {
     try {
         const meetings = await prisma.meeting.findMany({
             include: {
@@ -24,9 +28,13 @@ export async function getMeetingsAction() {
                     }
                 }
             },
-            orderBy: {date: "desc"}
+            orderBy: {date: "desc"},
+            take: limit,
+            skip: (page - 1) * limit
         })
-        return {success: true, meetings}
+        const dataCount = await prisma.meeting.count();
+
+        return {success: true, meetings, totalPages: Math.ceil(dataCount / limit)}
     } catch (error) {
         console.error("Error fetching meetings:", error);
         return { error: "Failed to fetch meetings"}
@@ -137,7 +145,6 @@ export async function createMeetingAction(formData: FormData) {
 
         return {success: true, meeting}
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
         if(error.errors) {
             return { error: error.errors[0].message };
@@ -198,7 +205,7 @@ export async function updateMeetingAction(meetingId: string, formData: FormData)
         revalidatePath(`/meetings/${meetingId}`);
         revalidatePath('/dashboard');
         return { success: true, meeting };
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+ 
     } catch (error: any) {
         if(error.errors) {
             return { error: error.errors[0].message };

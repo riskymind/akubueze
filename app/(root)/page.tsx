@@ -1,35 +1,55 @@
-"use client"
-import { useRouter } from "next/navigation";
-import { useEffect } from "react";
-import { useSession } from "next-auth/react"
+import Link from "next/link";
+import Image from "next/image";
+import { Button } from "@/components/ui/button";
+import { UserIcon } from "lucide-react";
+import { auth } from "@/auth";
+import { redirect } from "next/navigation";
 
+const HomePage = async () => {
+    const session =  await auth()
 
-const HomePage = () => {
-    // const router = useRouter()
-    // const {data: session, status} = useSession()
+    if(session) {
+        redirect('/dashboard');
+    }
 
-    // useEffect(()=> {
-    //     if(status == "loading") return;
-    //     if(session) {
-    //         router.push("/dashboard")
-    //     }else {
-    //         router.push("/login")
-    //     }
-    // }, [session, status, router])
+   return (
+  <div className="relative min-h-screen flex items-center justify-center">
+    {/* Background image */}
+    <div
+      className="absolute inset-0 bg-[url('/images/logo.jpeg')] bg-contain bg-center"
+    />
 
-    return ( 
-        <div className="min-h-screen flex flex-col items-center justify-center bg-linear-to-br from-green-50 to-blue-50">
-            <div className="text-center">
-                <div className="w-20 h-20 border-4 border-green-600 border-t-transparent rounded-full animate-spin mx-auto mb-6"></div>
-                <h2 className="text-2xl font-bold text-gray-900 mb-2">Akubueze Age Grade</h2>
-                <p className="text-gray-600">Loading....</p>
-            </div>
+    {/* Shadow overlay */}
+    <div className="absolute inset-0 bg-black/60" />
 
-            <p>Make this screen more about akubueze</p>
-            <h1>Add a Sign in button</h1>
-            
-        </div>
-     );
+    {/* Content */}
+    <div className="relative z-10 text-center px-6">
+      {/* Spinner */}
+      {/* <div className="w-20 h-20 border-4 border-green-400 border-t-transparent rounded-full animate-spin mx-auto mb-6"></div> */}
+        <Image
+        src="/images/logo.jpeg"
+        alt="Akubueze Logo"
+        width={80}
+        height={80}
+        className="mx-auto mb-4 rounded-r-lg rounded-l-lg"
+        />
+      {/* Branding */}
+      <h2 className="text-3xl font-extrabold text-white mb-2">
+        Akubueze Age Grade
+      </h2>
+      <p className="text-gray-200 mb-6">
+        Building unity, accountability, and progress
+      </p>
+
+      {/* Call to action */}
+       <Button asChild>
+        <Link href='/sign-in'>
+          <UserIcon /> Sign In
+        </Link>
+      </Button>
+    </div>
+  </div>
+);
 }
  
 export default HomePage;

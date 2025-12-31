@@ -1,14 +1,9 @@
-import NextAuth from "next-auth"
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import NextAuth, { Session, User } from "next-auth"
 import {PrismaAdapter} from "@auth/prisma-adapter"
 import {prisma} from "@/lib/prisma"
 import CredentialsProvider from "next-auth/providers/credentials"
 import bcrypt from "bcryptjs"
-import type { NextAuthConfig } from "next-auth"
-import { cookies } from "next/headers"
-import { NextResponse } from "next/server"
-import { adapter } from "next/dist/server/web/adapter"
-import { email } from "zod"
-// import { authConfig } from "./a"
 
 export const config = {
     pages: {
@@ -51,7 +46,8 @@ export const config = {
                             id: user.id,
                             name: user.name,
                             email: user.email,
-                            role: user.role
+                            role: user.role,
+                            image: user.image
                         }   
                     }
                 }
@@ -62,23 +58,27 @@ export const config = {
     ],
     callbacks: {
         // ...authConfig.callbacks,
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        
         async session({session, user, trigger, token}: any) {
             session.user.id = token.sub
-            session.user.role = token.role
-            session.user.name = token.name
+            session.user.role = token.role as string
+            session.user.name = token.name as string
+            session.user.image = token.image as string | null;
 
             if(trigger === "update") {
                 session.user.name = user.name
+                // session.user.image = user.image
             }
             return session
         },
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        
         async jwt({token, user, trigger, session}: any) {
             // Assign user fields to token
             if(user) {
                 token.id = user.id
                 token.role = user.role
+                token.image = user.image
+                token.name = user.name
     
                 // If user has no name then use the email
                 if(user.name === "NO_NAME") {
@@ -93,6 +93,7 @@ export const config = {
 
             if(session?.user.name && trigger === "update") {
                 token.name = session.user.name
+                token.image = session.user.image
             }
 
             return token

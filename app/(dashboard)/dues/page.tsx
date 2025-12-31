@@ -4,12 +4,13 @@ import { DollarSign, Calendar, AlertCircle, CheckCircle, Clock } from 'lucide-re
 import { formatDate, formatCurrency } from '@/lib/utils';
 import { getDuesAction } from '@/lib/actions/dues.action';
 import DuesClient from '@/components/dues-client';
+import NairaIcon from '@/components/naira-icon';
 
 export default async function DuesPage() {
   const session = await auth();
 
   if (!session) {
-    redirect('/login');
+    redirect('/sign-in');
   }
 
   const result = await getDuesAction({
@@ -31,14 +32,14 @@ export default async function DuesPage() {
 
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-3xl font-bold text-gray-900">My Dues</h1>
-        <p className="text-gray-600 mt-1">View and manage your meeting dues</p>
+      <div className='flex items-center gap-2'>
+        <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-200 w-[50%] md:w-fit">My Dues</h1>
+        <p className="text-gray-600 mt-1 dark:text-gray-200 text-sm">View and manage your meeting dues</p>
       </div>
 
       {/* Stats cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <Stat title="Total Dues" value={stats.total} icon={<DollarSign />} />
+        <Stat title="Total Dues" value={stats.total} icon={<NairaIcon />} />
         <Stat title="Paid" value={stats.paid} icon={<CheckCircle />} color="green" />
         <Stat title="Pending" value={stats.pending} icon={<Clock />} color="yellow" />
         <Stat title="Overdue" value={stats.overdue} icon={<AlertCircle />} color="red" />

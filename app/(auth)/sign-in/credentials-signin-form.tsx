@@ -52,6 +52,14 @@ const CredentialsSigninForm = () => {
                         autoComplete="password"
                         defaultValue={signInDefaultValues.password}/>
                 </div>
+                <div className="w-full text-right">
+                     <Link
+                href="/forgot-password"
+                className="text-sm font-medium text-green-600 hover:text-green-500"
+              >
+                Forgot password?
+              </Link>
+                </div>
                 <div>
                     <SignInButton />
                 </div>
@@ -65,10 +73,10 @@ const CredentialsSigninForm = () => {
                 }
 
                 <div className="text-sm text-center text-muted-foreground">
-                    Don&apos;t have an account?{" "}
-                    <Link href="/sign-up" target="_self" className="link text-blue-400 hover:text-blue-600">
+                    {/* Don&apos;t have an account?{" "}
+                    <Link href="/sign-up" target="_self" className="link text-green-600 hover:text-green-500">
                     Contact admin
-                    </Link>
+                    </Link> */}
                 </div>
 
                 <div className="mt-4 text-center text-xs text-gray-500">
