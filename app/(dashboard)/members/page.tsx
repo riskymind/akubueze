@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic';
 import { getMembersAction } from '@/lib/actions/member.action';
 import MembersClient from '@/components/members-client';
 import { Metadata } from 'next';
