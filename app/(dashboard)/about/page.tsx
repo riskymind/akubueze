@@ -26,14 +26,14 @@ const [showContentMobile, setShowContentMobile] = useState(false);
     <div className="max-w-7xl mx-auto min-h-screen p-6 grid grid-cols-1 md:grid-cols-4 gap-6">
       
       {/* LEFT SIDEBAR */}
-      <aside  className={`md:col-span-1 border rounded-xl bg-white overflow-y-auto
+      <aside  className={`md:col-span-1 border rounded-xl bg-white dark:bg-gray-400 overflow-y-auto
   ${showContentMobile ? 'hidden md:block' : 'block'}`}>
         <h2 className="px-4 py-3 font-bold text-lg border-b">
           Constitution
         </h2>
 
         {constitution.map((section) => (
-          <div key={section.id} className="border-b">
+          <div key={section.id} className="border-b dark:bg-gray-500">
             
             {/* SECTION */}
             <button
@@ -44,7 +44,7 @@ const [showContentMobile, setShowContentMobile] = useState(false);
               className={`w-full text-left px-4 py-3 font-semibold transition ${
                 activeSectionId === section.id
                   ? 'bg-green-600 text-white'
-                  : 'hover:bg-gray-100'
+                  : 'hover:bg-gray-100 text-black'
               }`}
             >
               {section.title}
@@ -52,7 +52,7 @@ const [showContentMobile, setShowContentMobile] = useState(false);
 
             {/* ARTICLES */}
             {activeSectionId === section.id && (
-              <ul className="bg-gray-50">
+              <ul className="bg-gray-50 dark:bg-gray-300">
                 {section.articles.map((article) => (
                   <li key={article.id}>
                     <button
@@ -65,7 +65,7 @@ const [showContentMobile, setShowContentMobile] = useState(false);
                       className={`w-full text-left px-8 py-2 text-sm transition ${
                         activeArticleId === article.id
                           ? 'text-green-700 font-semibold'
-                          : 'hover:text-green-600'
+                          : 'hover:text-green-600 text-black'
                       }`}
                     >
                       {article.title}
@@ -91,7 +91,7 @@ const [showContentMobile, setShowContentMobile] = useState(false);
 )}
         {activeArticle ? (
           <>
-            <h1 className="text-2xl font-bold mb-4">
+            <h1 className="text-2xl font-bold mb-4 dark:text-gray-600">
               {activeArticle.title}
             </h1>
             <p className="text-gray-700 leading-relaxed whitespace-pre-line">

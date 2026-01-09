@@ -54,7 +54,7 @@ export default async function EditMeetingPage(props: PageProps) {
         </Link>
         <div>
           <h1 className="text-3xl font-bold">Edit Meeting</h1>
-          <p className="text-gray-600">Update meeting details</p>
+          <p className="text-gray-600 dark:text-gray-300">Update meeting details</p>
         </div>
       </div>
 

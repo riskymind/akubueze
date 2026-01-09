@@ -81,7 +81,7 @@ export const ThemeSwitch: React.FC = () => {
       <DropdownMenuTrigger asChild>
         <Button
           variant="ghost"
-          className="focus-visible:ring-0 focus-visible:ring-offset-0"
+          className="focus-visible:ring-0 focus-visible:ring-offset-0 ml-2"
         >
            {currentTheme === 'dark' ? (
             <MoonIcon />

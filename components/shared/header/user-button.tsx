@@ -30,7 +30,7 @@ const UserButton = async () => {
   const profileImage = session.user?.image ?? "/images/logo.jpeg"
 
   return (
-    <div className='flex gap-2 items-center'>
+    <div className='flex gap-2 items-center ml-4'>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <div className='flex items-center'>
@@ -49,7 +49,7 @@ const UserButton = async () => {
             {/* </Button> */}
           </div>
         </DropdownMenuTrigger>
-        <DropdownMenuContent className='w-56' align='end' forceMount>
+        <DropdownMenuContent className='w-56 ml-4' align='end' forceMount>
           <DropdownMenuLabel className='font-normal'>
             <div className='flex flex-col space-y-1'>
               <div className='text-sm font-medium leading-none'>

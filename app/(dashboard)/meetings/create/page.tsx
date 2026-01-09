@@ -41,10 +41,10 @@ export default async function CreateMeetingPage() {
         </Link>
 
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-300">
             Create New Meeting
           </h1>
-          <p className="text-gray-600 mt-1">
+          <p className="text-gray-600 mt-1 dark:text-gray-300">
             Schedule a new age grade meeting
           </p>
         </div>

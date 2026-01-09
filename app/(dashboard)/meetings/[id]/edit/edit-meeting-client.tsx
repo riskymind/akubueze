@@ -84,7 +84,7 @@ export default function EditMeetingClient({
 
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="bg-white rounded-xl border p-8 space-y-6"
+        className="bg-white dark:bg-gray-600 rounded-xl border p-8 space-y-6"
       >
         {/* TITLE */}
         <Field
@@ -142,7 +142,7 @@ export default function EditMeetingClient({
           </button>
           <Link
             href={`/meetings/${meeting.id}`}
-            className="flex-1 bg-gray-100 text-center py-3 rounded-lg"
+            className="flex-1 bg-gray-100 dark:bg-gray-400 text-center py-3 rounded-lg"
           >
             Cancel
           </Link>

@@ -48,10 +48,10 @@ export default function DuesClient({ dues }: { dues: any[] }) {
       {/* Dues list */}
       <div className="space-y-4">
         {filteredDues.map(due => (
-          <div key={due.id} className="bg-white p-6 rounded-xl border">
+          <div key={due.id} className="bg-white dark:bg-gray-600 p-6 rounded-xl border">
             <h3 className="font-bold">{due.meeting.title}</h3>
 
-            <div className="text-sm text-gray-600 flex gap-3 mt-1">
+            <div className="text-sm text-gray-600 dark:text-gray-300 flex gap-3 mt-1">
               <Calendar size={16} />
               {formatDate(due.meeting.date)}
             </div>

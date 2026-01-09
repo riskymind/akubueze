@@ -156,7 +156,7 @@ export default function MeetingDetailClient({ meeting, isAdmin }: any) {
         <div className="p-6 border-b">
           <h2 className="text-xl font-bold mb-4">Payment Status</h2>
 
-          <div className="flex gap-2">
+          <div className="flex gap-2 flex-wrap">
             {['all', 'paid', 'pending', 'overdue'].map((f) => (
               <button
                 key={f}
@@ -182,16 +182,16 @@ export default function MeetingDetailClient({ meeting, isAdmin }: any) {
             return (
               <div key={due.id} className="p-6 flex justify-between">
                 <div>
-                  <p className="font-semibold">{memberName}</p>
+                  <p className="font-semibold dark:text-gray-600">{memberName}</p>
                   {due.payments[0] && (
-                    <p className="text-sm text-gray-600">
+                    <p className="text-sm text-gray-600 dark:text-gray-600">
                       Paid on {formatDate(due.payments[0].paymentDate)}
                     </p>
                   )}
                 </div>
 
                 <div className="text-right">
-                  <p className="font-bold">{formatCurrency(due.amount)}</p>
+                  <p className="font-bold dark:text-gray-600">{formatCurrency(due.amount)}</p>
                   <StatusBadge
                     due={due}
                     isAdmin={isAdmin}

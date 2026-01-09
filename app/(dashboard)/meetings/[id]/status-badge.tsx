@@ -87,7 +87,7 @@ export default function StatusBadge({
                   key={key}
                   onClick={() => onChange(due.id, key)}
                   disabled={key === due.status}
-                  className={`w-full flex items-center gap-2 px-4 py-2 text-sm hover:bg-gray-50 transition ${
+                  className={`w-full flex items-center gap-2 px-4 py-2 text-sm hover:bg-gray-50 dark:text-gray-600 transition ${
                     key === due.status ? 'bg-gray-50 cursor-not-allowed' : ''
                   }`}
                 >

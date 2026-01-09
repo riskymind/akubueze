@@ -72,7 +72,7 @@ export default function CreateMeetingForm({
 
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="bg-white rounded-xl shadow-sm border p-8 space-y-6"
+        className="bg-white dark:bg-gray-600 rounded-xl shadow-sm border p-8 space-y-6"
       >
         {/* Title */}
         <div>
@@ -163,7 +163,7 @@ export default function CreateMeetingForm({
 
           <Link
             href="/meetings"
-            className="flex-1 bg-gray-100 text-center py-3 rounded-lg"
+            className="flex-1 bg-gray-100 text-center py-3 rounded-lg dark:bg-gray-400"
           >
             Cancel
           </Link>
